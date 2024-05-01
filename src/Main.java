@@ -1,6 +1,7 @@
 import boardgame.*;
 import chess.*;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -9,17 +10,29 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         ChessMatch chessMatch = new ChessMatch();
+
         while (true) {
-            UI.printBoard(chessMatch.getPieces());
-            System.out.println();
-            System.out.println("Origem: ");
-            ChessPosition src = UI.readChessPosition(sc);
+            try {
+                UI.clearScreen();
+                UI.printBoard(chessMatch.getPieces());
+                System.out.println();
+                System.out.println("Origem: ");
+                ChessPosition src = UI.readChessPosition(sc);
 
-            System.out.println();
-            System.out.println("Destino: ");
-            ChessPosition trg = UI.readChessPosition(sc);
+                System.out.println();
+                System.out.println("Destino: ");
+                ChessPosition trg = UI.readChessPosition(sc);
 
-            ChessPiece capturedPiece = chessMatch.performChessMove(src, trg);
+                ChessPiece capturedPiece = chessMatch.performChessMove(src, trg);
+            }
+            catch (ChessException e){
+                System.out.println(e.getMessage());
+                sc.nextLine();
+            }
+            catch (InputMismatchException e) {
+                System.out.println(e.getMessage());
+                sc.nextLine();
+            }
         }
     }
 }
